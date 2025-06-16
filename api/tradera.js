@@ -24,14 +24,19 @@ export default async function handler(req, res) {
 
   soap.createClient(wsdlUrl, options, (err, client) => {
     if (err) {
-      console.error("SOAP client error:", err);
+      console.error("SOAP client creation failed:", err);
       return res.status(500).json({ error: "Failed to create SOAP client" });
     }
 
     client.GetItemsInformation(requestArgs, (err, result) => {
       if (err) {
-        console.error("SOAP method error:", err);
-        return res.status(500).json({ error: "Failed to fetch from Tradera" });
+        console.error("SOAP request failed:", err);
+        return res.status(500).json({ error: "SOAP request error", details: err.message });
+      }
+
+      if (!result?.GetItemsInformationResult?.Items?.Item) {
+        console.error("No item found in result:", result);
+        return res.status(404).json({ error: "No item found for provided ID" });
       }
 
       let item = result.GetItemsInformationResult.Items.Item;
