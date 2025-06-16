@@ -1,8 +1,8 @@
 {
-  "name": "tradera-proxy-modern",
+  "name": "tradera-proxy",
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "strong-soap": "^1.19.0"
+    "soap": "^0.44.0"
   }
 }
